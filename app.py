@@ -180,39 +180,44 @@ def save_users(users_data):
     with open(USERS_FILE, "w") as f: json.dump(users_data, f, indent=4)
 
 def login_page():
-    # Sticker / Animation
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        lottie_cool = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_jcikwtux.json")
-        if lottie_cool:
-            st_lottie(lottie_cool, height=180, key="login_lottie")
-            
-    st.markdown("<h1 style='text-align: center'>✨ Welcome to Aura ✨</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #a9a9a9; font-style: italic; font-size: 1.2em;'>Your Vibe-Matched AI Bestie 💅</p>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; font-size: 3em;'>✨ Welcome to Aura ✨</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #a9a9a9; font-style: italic; font-size: 1.4em;'>Your Vibe-Matched AI Bestie 💅</p>", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
     
-    tab1, tab2 = st.tabs(["👾 Login", "🚀 Sign Up"])
-    with tab1:
-        with st.form("login"):
-            st.markdown("### 🔑 Enter your Realm")
-            username, password = st.text_input("Username"), st.text_input("Password", type="password")
-            if st.form_submit_button("Let's Go 🛸"):
-                users = load_users()
-                if username in users and users[username]["password"] == password:
-                    st.session_state.logged_in, st.session_state.username = True, username
-                    st.rerun()
-                else: st.error("💀 Try again bestie, wrong credentials.")
-    with tab2:
-        with st.form("signup"):
-            st.markdown("### 🌟 Join the Vibe")
-            nu, ne, np, cp = st.text_input("Username"), st.text_input("Email"), st.text_input("Password", type="password"), st.text_input("Confirm", type="password")
-            if st.form_submit_button("Create Account ✨"):
-                users = load_users()
-                if nu not in users and np == cp and len(nu) > 2:
-                    users[nu] = {"password": np, "email": ne}
-                    save_users(users)
-                    st.success("W! Account created 🎉")
-                else: st.error("L. Check your details and try again 🤡")
+    col1, col2 = st.columns([1, 1.2], gap="large")
+    
+    with col1:
+        if os.path.exists("aura.png"):
+            st.image("aura.png", use_container_width=True, caption="Hi, I'm Aura! 👋")
+        else:
+            # Sticker / Animation Fallback
+            lottie_cool = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_jcikwtux.json")
+            if lottie_cool:
+                st_lottie(lottie_cool, height=300, key="login_lottie")
+            
+    with col2:
+        tab1, tab2 = st.tabs(["👾 Login", "🚀 Sign Up"])
+        with tab1:
+            with st.form("login"):
+                st.markdown("### 🔑 Enter your Realm")
+                username, password = st.text_input("Username"), st.text_input("Password", type="password")
+                if st.form_submit_button("Let's Go 🛸"):
+                    users = load_users()
+                    if username in users and users[username]["password"] == password:
+                        st.session_state.logged_in, st.session_state.username = True, username
+                        st.rerun()
+                    else: st.error("💀 Try again bestie, wrong credentials.")
+        with tab2:
+            with st.form("signup"):
+                st.markdown("### 🌟 Join the Vibe")
+                nu, ne, np, cp = st.text_input("Username"), st.text_input("Email"), st.text_input("Password", type="password"), st.text_input("Confirm", type="password")
+                if st.form_submit_button("Create Account ✨"):
+                    users = load_users()
+                    if nu not in users and np == cp and len(nu) > 2:
+                        users[nu] = {"password": np, "email": ne}
+                        save_users(users)
+                        st.success("W! Account created 🎉")
+                    else: st.error("L. Check your details and try again 🤡")
 
 
 # --- Main App Page ---
