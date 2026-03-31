@@ -1,0 +1,9 @@
+streamlit
+google-genai
+streamlit-lottie
+python-dotenv
+requests
+pillow
+gTTS
+python-docx
+python-pptx
